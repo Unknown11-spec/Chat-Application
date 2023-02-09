@@ -1,51 +1,25 @@
-import { has } from 'lodash';
-import './bootstrap';
 
+/**
+ * First we will load all of this project's JavaScript dependencies which
+ * includes Vue and other libraries. It is a great starting point when
+ * building robust, powerful web applications using Vue and Laravel.
+ */
 
-const messages_el = document.getElementById("messages");
-const username_input = document.getElementById("username");
-const message_input = document.getElementById("message_input");
-const message_form = document.getElementById("message_form");
+require('./bootstrap');
 
-message_form.addEventListener('submit', function (e)
-{
-    e.preventDefault();
+window.Vue = require('vue');
 
-    let has_errors = false;
+/**
+ * The following block of code may be used to automatically register your
+ * Vue components. It will recursively scan this directory for the Vue
+ * components and automatically register them with their "basename".
+ *
+ * Eg. ./components/ExampleComponent.vue -> <example-component></example-component>
+ */
 
-    if (username_input.value == '')
-    {
-        alert("Please enter a username ");
-        has_errors = true; 
-    }
+const files = require.context('./', true, /\.vue$/i)
+files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key)))
 
-    if (message_input.value == '')
-    {
-        alert("Please enter a message");
-        has_errors = true;
-    }
-
-    if (has_errors)
-    {
-        return;
-    }
-
-    const options = 
-    {
-        method: 'post',
-        url: 'send-message',
-        data: 
-        {
-            username: username_input.value,
-            message: message_input.value
-        }
-    }
-
-    axios(options);
-});
-
-window.Echo.channel('chat')
-.listen('.message', (e) => 
-{
-    messages_el.innerHTML += '<div class="message"><strong> ' + e.username + ':</strong>' + e.message + '</div>'; 
+const app = new Vue({
+  el: '#app'
 });

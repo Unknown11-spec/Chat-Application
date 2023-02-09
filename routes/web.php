@@ -1,10 +1,5 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-use Illuminate\Http\Response;
-use Illuminate\Http\Request;
-use App\Events\Message;
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -16,19 +11,12 @@ use App\Events\Message;
 |
 */
 
-
-
 Route::get('/', function () {
-    return view('index');
+    return redirect('login');
 });
 
-Route::post('/send-message', function (Request $request)
-{
-    event
-    (
-        new Message($request->input('username'), 
-        $request->input('message'))
-    );
-
-    return ["succesS" => true];
+Auth::routes();
+Route::get('/home', 'HomeController@index')->name('home');
+Route::post('pusher/auth', function() {
+  return auth()->user();
 });
