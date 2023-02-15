@@ -1,4 +1,4 @@
-# chat-demo
+# chat-application
 
 This is a simple demo application for https://github.com/musonza/chat/
 
